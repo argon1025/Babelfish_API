@@ -1,0 +1,25 @@
+{
+  "name": "babelfish_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "App.js",
+  "scripts": {
+    "test": "node App.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/argon1025/Babelfish_API.git"
+  },
+  "keywords": [
+    "BabelFish"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/argon1025/Babelfish_API/issues"
+  },
+  "homepage": "https://github.com/argon1025/Babelfish_API#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
