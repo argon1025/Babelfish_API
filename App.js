@@ -1,6 +1,5 @@
 ///////////////////////////////////// =====> 모듈 로드
 const express = require('express');
-const test = require('./res/test');
 const app = express();
 
 ///////////////////////////////////// =====> 환경설정
@@ -14,5 +13,4 @@ app.use('/', indexRouter);
 /////////////////////////////////////  =====> 앱 실행
 app.listen(port, () => {
     console.log(`listening at http://localhost:${port}`)
-    test.helloworld();
   })

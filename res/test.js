@@ -1,4 +1,7 @@
-///////////////////////////////////// =====> 라우팅
-module.exports.helloworld = () => {
-    console.log("hi!");
+module.exports.helloworld = () => {}
+
+module.exports.helloworld.a="1";
+module.exports.helloworld.get_a= () => {
+    this.helloworld.a++;
+    return this.helloworld.a;
 }
