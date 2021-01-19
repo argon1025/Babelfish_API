@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/argon1025/Babelfish_API#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
   }
 }
