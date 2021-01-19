@@ -6,4 +6,9 @@ const router = express.Router();
 const ping = require('./ping');
 router.use('/ping', ping);
 
+const users = require('./users');
+router.use('/users',users);
+/////////////////////////////////////
+
+
 module.exports = router;

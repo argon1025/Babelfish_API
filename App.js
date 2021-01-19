@@ -7,7 +7,7 @@ const port = 80;
 
 ///////////////////////////////////// =====> 라우팅
 const indexRouter = require('./routes');
-app.use('/', indexRouter);
+app.use('/api', indexRouter);
 
 
 /////////////////////////////////////  =====> 앱 실행
