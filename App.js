@@ -13,7 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 /////////////////////////////////////
 
-
+///////////////////////////////////// =====> 토큰 발급 라우팅
+const tokenRouter = require('./routes/token');
+app.use('/token', tokenRouter);
 ///////////////////////////////////// =====> 라우팅
 const indexRouter = require('./routes');
 app.use('/api', indexRouter);
