@@ -1,3 +1,5 @@
+const mysql = require('../../res/mysql');
+
 module.exports.user_create = (req, res, next) => {
     res.send('user_create');
 }

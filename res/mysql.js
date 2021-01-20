@@ -8,11 +8,7 @@
 
 
 */
-const mysql = require('mysql');
-const settings = require('./settings');
-
-module.exports.db = {}
-
+/*
 //커넥션 생성
 module.exports.db.create_connect=() => {
     console.log(`create new connections`);
@@ -29,3 +25,44 @@ module.exports.db.test_conn=() => {
         }
     })
 }
+*/
+
+const mysql = require('mysql');
+const settings = require('./settings');
+
+class database {
+    constructor(){
+        console.log('Database Module Load');
+
+        // 풀 생성
+        this.pool = mysql.createPool(settings.db_config);
+
+        // 풀 연결 테스트, 테스트 이후 풀 릴리즈
+        this.pool.getConnection((err, conn) => {
+            if(!err){
+                // 접속 성공
+                console.log(`Database test connection successful`);
+                conn.release();
+            } else {
+                // 접속 실패 서버 종료
+                throw err;
+            }
+        })
+    }
+    // 사용자 정의 쿼리 실행
+    get_query(sql, next){
+        this.pool.getConnection((err, conn) => {
+            if(!err){
+                conn.query(sql, (err, rows, fields) =>{
+                    conn.release();
+                    next(err, rows, fields);
+                })
+            }else{
+                conn.release();
+                return err;
+            }
+        });
+    }
+}
+
+module.exports = new database();
