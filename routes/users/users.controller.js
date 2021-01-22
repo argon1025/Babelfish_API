@@ -1,5 +1,3 @@
-const mysql = require('../../res/mysql');
-
 // INSERT INTO `babelfish`.`member` VALUES('id','name','password');
 module.exports.user_create = (req, res, next) => {
     res.json(req.body);

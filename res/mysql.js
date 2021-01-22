@@ -50,16 +50,20 @@ class database {
         })
     }
     // 사용자 정의 쿼리 실행
-    get_query(sql, next){
+    async get_query(sql){
         this.pool.getConnection((err, conn) => {
             if(!err){
                 conn.query(sql, (err, rows, fields) =>{
                     conn.release();
-                    next(err, rows, fields);
+                    //console.log(sql);
+                    const result = rows;
+                    console.log(`처리하는 부분 쿼리 가져왔음 ${result[0]['email']}`);
+                    return result;
                 })
             }else{
                 conn.release();
-                return err;
+                throw err;
+                //return err;
             }
         });
     }
