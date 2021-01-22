@@ -3,6 +3,8 @@ const express = require('express'); //express 프레임워크 로드
 const app = express();
 var bodyParser = require('body-parser'); //파싱 모듈
 const settings = require('./res/settings'); // 서버 세팅값 로드
+const jwt = require('./res/JWT');
+const create = require('./res/Respons_Json'); // res_json생성 모듈 
 /////////////////////////////////////
 
 
@@ -17,6 +19,16 @@ app.use(bodyParser.json());
 ///////////////////////////////////// =====> 토큰 발급 라우팅
 const tokenRouter = require('./routes/token');
 app.use('/token', tokenRouter);
+
+app.use((req, res, next) =>{
+  jwt.verify(req.body['token'])
+  .then(()=>{
+    return next();
+  })
+  .catch(() => {
+    return res.status(401).json(create.login_error(`token`,`Token invalid or expired`,`NULL`,4));
+  })
+})
 ///////////////////////////////////// =====> 라우팅
 const indexRouter = require('./routes');
 app.use('/api', indexRouter);

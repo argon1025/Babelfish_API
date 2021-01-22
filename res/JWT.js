@@ -18,9 +18,15 @@ async function sign(userid) {
 }
 
 async function verify(token){
-  var decoded_data = jwt.verify(token, settings.key);
-  return decoded_data;
+jwt.verify(token, settings.key, (err, decoded_data)=>{
+  if(err){
+    throw 'Token authentication failed';
+  }else{
+    return decoded_data;
+  }
+});
 }
+
 
 module.exports = {
   sign,verify
