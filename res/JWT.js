@@ -11,7 +11,7 @@ async function sign(userid) {
   },
   settings.key, // 비밀키
   {
-    expiresIn: '1m' // 유효시간
+    expiresIn: '30m' // 유효시간
   })
 
   return token;

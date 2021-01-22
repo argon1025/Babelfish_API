@@ -1,10 +1,9 @@
-function login_error(location,msg,param,msg_code){
+function error(location,msg,msg_code){
     return {
       "error": "true",
       "location": `${location}`,
       "msg": `${msg}`,
       "msg_code": `${msg_code}`,
-      "param": `${param}`
       };
 }
 function login_success(token,msg,msg_code){
@@ -15,5 +14,12 @@ function login_success(token,msg,msg_code){
     "msg_code": `${msg_code}`
     };
 }
-
-module.exports = {login_error,login_success} 
+function success(location,msg,msg_code){
+  return {
+    "error": "false",
+    "location": `${location}`,
+    "msg": `${msg}`,
+    "msg_code": `${msg_code}`
+    };
+}
+module.exports = {error,login_success,success} 
