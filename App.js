@@ -29,7 +29,7 @@ app.use((req, res, next) =>{
   .catch(() => {
     return res.status(401).json(create.error(`token`,`Token invalid or expired`,4));
   })
-})
+});
 ///////////////////////////////////// =====> 라우팅
 const indexRouter = require('./routes');
 app.use('/api', indexRouter);

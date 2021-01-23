@@ -39,6 +39,7 @@ router.post('/', (req, res, next) =>{
      }
  });
 });
+
 router.post('/join', (req, res, next) =>{
     // TODO
     // 1. data_verifications -> id,name,password

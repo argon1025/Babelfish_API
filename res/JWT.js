@@ -17,16 +17,17 @@ async function sign(userid) {
   return token;
 }
 
-async function verify(token){
-jwt.verify(token, settings.key, (err, decoded_data)=>{
-  if(err){
-    throw 'Token authentication failed';
-  }else{
-    return decoded_data;
-  }
-});
-}
 
+async function verify(token){
+  var decoded_data = jwt.verify(token, settings.key, (err, decoded_data)=>{
+    if(err){
+      throw 'Token authentication failed';
+    }else{
+      return decoded_data;
+    }
+});
+return decoded_data;
+}
 
 module.exports = {
   sign,verify

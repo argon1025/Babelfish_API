@@ -21,6 +21,7 @@ class database {
     async get_query(sql){
         const result = this.connection.query(sql);
         console.log(result);
+        console.log(`쿼리 질의 결과 ${result['affectedRows']}`);
         if(!result[0]){
             //질의 결과가 없을경우
             throw 'DB No results';

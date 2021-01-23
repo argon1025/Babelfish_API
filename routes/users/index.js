@@ -7,9 +7,6 @@ const notes = require('./notes');
 router.use('/:userid/notes',notes);
 
 ///////////////////////////////////// ==> users
-// POST /api/users 유저 등록
-router.post('/', controller.user_create);
-
 // PUT /api/users 유저 정보 변경
 router.put('/:userid', controller.change_information);
 
