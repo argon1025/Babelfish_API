@@ -86,7 +86,7 @@ module.exports.create = (req, res, next) => {
         const sql = `
         SELECT babelfish.word.id
         FROM babelfish.word, babelfish.note
-        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}');
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}')
         `;
         return db.insert_query(sql);
     })
@@ -150,7 +150,7 @@ module.exports.change_information = (req, res, next) => {
     })
     .then(()=>{
         // 3-2. DB query 삽입 진행
-        const sql = `UPDATE \`babelfish\`.\`word\` SET \`Word_Title\` = '${req.body.title}', \`Mean1\` = '${req.body.mean1}', \`Mean2\` = '${req.body.mean2}' WHERE (\`id\` = '${req.params.noteid}')`;
+        const sql = `UPDATE \`babelfish\`.\`word\` SET \`Word_Title\` = '${req.body.title}', \`Mean1\` = '${req.body.mean1}', \`Mean2\` = '${req.body.mean2}' WHERE (\`id\` = '${req.params.wordid}' AND \`note_id\` = '${req.params.noteid}')`;
         return db.insert_query(sql);
     })
     .then(()=>{
@@ -175,11 +175,118 @@ module.exports.change_information = (req, res, next) => {
          }
     });
 }
-// DELETE FROM `babelfish`.`word` WHERE (`id` = '1');
+// DELETE FROM `babelfish`.`word` WHERE (`id` = '1' AND `note_id` = 'asd');
 module.exports.delete = (req, res, next) => {
-    res.send('word-delete');
+   // TODO
+    // 1. data_verifications -> params.userid, noteid
+    // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+    // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는지
+    // 3-2. DB query 삽입 진행
+    // 4. respoens
+    // 5. error catch
+
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_number({number:req.params.wordid})]);
+    data_verification()
+    .then(()=>{
+        // 2. 토큰 검증 시작
+        return jwt.verify(req.headers.token);
+    })
+    .then((decoded_data)=>{
+        // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+        if(decoded_data.userid != req.params.userid){
+            throw "no permission";
+        }
+    })
+    .then(()=>{
+        // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는것이 있는지
+        const sql = `
+        SELECT babelfish.word.id
+        FROM babelfish.word, babelfish.note
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}');
+        `;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 3-2. DB query 삽입 진행
+        const sql = `DELETE FROM \`babelfish\`.\`word\` WHERE (\`id\` = '${req.params.wordid}' AND \`note_id\` = '${req.params.noteid}')`;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 4. respoens
+        return res.status(200).json(create.success("Words","Delete to Word successful",48));
+    })
+    .catch((error)=>{
+        // 5. error catch
+        console.log("error :: DELETE/api/users/{useremail}/notes/{noteid}/words/{wordid} 단어 삭제");
+        console.log(error);
+        console.log("-------------------------------------------------");
+        if(error === "Value verification failed"){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,45));
+         }else if(error === "Token authentication failed"){
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+         }else if(error === "no permission"){
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,46));
+         }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,47));
+         }else{
+            return res.status(404);
+         }
+    });
 }
-// UPDATE `babelfish`.`word` SET `Wrong_Count` = '3' WHERE (`id` = '1');
+// UPDATE `babelfish`.`word` SET `Wrong_Count` = `Wrong_Count`+1 WHERE (`id` = '1' AND `note_id` = 'asd');
 module.exports.wrong_count = (req, res, next) => {
-    res.send('word-wrong_count');
+   // TODO
+    // 1. data_verifications -> params.userid, noteid
+    // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+    // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는지
+    // 3-2. DB query 삽입 진행
+    // 4. respoens
+    // 5. error catch
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_number({number:req.params.wordid})]);
+    data_verification()
+    .then(()=>{
+        // 2. 토큰 검증 시작
+        return jwt.verify(req.headers.token);
+    })
+    .then((decoded_data)=>{
+        // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+        if(decoded_data.userid != req.params.userid){
+            throw "no permission";
+        }
+    })
+    .then(()=>{
+        // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는것이 있는지
+        const sql = `
+        SELECT babelfish.word.id
+        FROM babelfish.word, babelfish.note
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}');
+        `;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 3-2. DB query 삽입 진행
+        const sql = `UPDATE \`babelfish\`.\`word\` SET \`Wrong_Count\` = \`Wrong_Count\`+1 WHERE (\`id\` = '${req.params.wordid}' AND \`note_id\` = '${req.params.noteid}')`;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 4. respoens
+        return res.status(200).json(create.success("Words","Add Word wrong_count",52));
+    })
+    .catch((error)=>{
+        // 5. error catch
+        console.log("error :: PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}/wrong-count 단어 틀린 횟수 설정");
+        console.log(error);
+        console.log("-------------------------------------------------");
+        if(error === "Value verification failed"){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,49));
+         }else if(error === "Token authentication failed"){
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+         }else if(error === "no permission"){
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,50));
+         }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,51));
+         }else{
+            return res.status(404);
+         }
+    });
 }
