@@ -48,7 +48,7 @@ async function check_password(value){
 async function check_name(value){
     const schema = Joi.object({
         name: Joi.string()
-        .pattern(new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`)) // 한글,알파벳,숫자,띄어쓰기를 허용합니다
+        .pattern(new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`)) // 한글,알파벳,숫자,띄어쓰기만 허용합니다
         .min(1) //문자열 최소 길이 정의
         .max(10) //문자열 최대 길이 정의
         .required() // 값이 입력되어야한다
@@ -63,7 +63,25 @@ async function check_name(value){
         throw "Value verification failed";
     }
 }
+async function check_note_name(value){
+    const schema = Joi.object({
+        notename: Joi.string()
+        .pattern(new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`)) // 한글,알파벳,숫자,띄어쓰기만 허용합니다
+        .min(1) //문자열 최소 길이 정의
+        .max(11) //문자열 최대 길이 정의
+        .required() // 값이 입력되어야한다
+    });
+    const Result = await schema.validate(value) //검증 시작
 
+    if(!Result.error){
+        //값 검증에 문제가 없을경우
+        return Result;
+    }else{
+        //문제가 있을경우
+        console.log(Result.error);
+        throw "Value verification failed";
+    }
+}
 module.exports = {
-    check_id, check_password,check_name
+    check_id, check_password,check_name,check_note_name
 }
