@@ -82,6 +82,23 @@ async function check_note_name(value){
         throw "Value verification failed";
     }
 }
+
+async function check_number(value){
+    const schema = Joi.object({
+        number: Joi.number() //숫자여야 한다
+        .required() // 값이 입력되어야한다
+    });
+    const Result = await schema.validate(value) //검증 시작
+
+    if(!Result.error){
+        //값 검증에 문제가 없을경우
+        return Result;
+    }else{
+        //문제가 있을경우
+        console.log(Result.error);
+        throw "Value verification failed";
+    }
+}
 module.exports = {
-    check_id, check_password,check_name,check_note_name
+    check_id, check_password,check_name,check_note_name,check_number
 }

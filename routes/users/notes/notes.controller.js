@@ -101,17 +101,147 @@ module.exports.create = (req, res, next) => {
     });
 }
 
-// UPDATE `babelfish`.`note` SET `name` = '테스트단어장3' WHERE (`id` = '5');
+// UPDATE `babelfish`.`note` SET `name` = '테스트단어장3' WHERE (`id` = '7' AND `member_email` = 'test122234@naver.com' );
 module.exports.change_information = (req, res, next) => {
-    res.send('note-change_information');
+    // TODO
+    // 1. data_verifications -> params.userid, notename
+    // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+    // 3. DB query
+    // 4. respoens
+    // 5. error catch
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_note_name({notename:req.body.notename}),data_verifications.check_number({number:req.params.noteid})]);
+    data_verification()
+    .then(()=>{
+        // 2. 토큰 검증 시작
+        return jwt.verify(req.headers.token);
+    })
+    .then((decoded_data)=>{
+        // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+        if(decoded_data.userid != req.params.userid){
+            throw "no permission";
+        }
+    })
+    .then(()=>{
+        // 3. DB query
+        const sql = `UPDATE \`babelfish\`.\`note\` SET \`name\` = '${req.body.notename}' WHERE (\`id\` = '${req.params.noteid}' AND \`member_email\` = '${req.params.userid}' )`;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 4. respoens
+        return res.status(200).json(create.success("notes","Change note Information successful",24));
+    })
+    .catch((error)=>{
+        // 5. error catch
+        console.log("error :: PUT/api/users/{useremail}/notes/{noteid} 유저 단어장 수정");
+        console.log(error);
+        console.log("-------------------------------------------------");
+        if(error === "Value verification failed"){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,21));
+         }else if(error === "Token authentication failed"){
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+         }else if(error === "no permission"){
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,22));
+         }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,23));
+         }else{
+            return res.status(404);
+         }
+    });
 }
 
-// DELETE FROM `babelfish`.`note` WHERE (`id` = '5');
+// DELETE FROM `babelfish`.`note` WHERE (`id` = '5' AND `member_email` = 'test122234@naver.com');\
 module.exports.delete = (req, res, next) => {
-    res.send('note-delete');
+    // TODO
+    // 1. data_verifications -> params.userid, notename
+    // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+    // 3. DB query
+    // 4. respoens
+    // 5. error catch
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid})]);
+    // 1. data_verifications -> params.userid, notenumber
+    data_verification()
+    .then(()=>{
+        // 2. 토큰 검증 시작
+        return jwt.verify(req.headers.token);
+    })
+    .then((decoded_data)=>{
+        // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+        if(decoded_data.userid != req.params.userid){
+            throw "no permission";
+        }
+    })
+    .then(()=>{
+        // 3. DB query
+        const sql = `DELETE FROM \`babelfish\`.\`note\` WHERE (\`id\` = '${req.params.noteid}' AND \`member_email\` = '${req.params.userid}')`;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 4. respoens
+        return res.status(200).json(create.success("notes","Delete note successful",28));
+    })
+    .catch((error)=>{
+        // 5. error catch
+        console.log("error :: DELETE/api/users/{useremail}/notes/{noteid} 유저 단어장 삭제");
+        console.log(error);
+        console.log("-------------------------------------------------");
+        if(error === "Value verification failed"){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,25));
+         }else if(error === "Token authentication failed"){
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+         }else if(error === "no permission"){
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,26));
+         }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,27));
+         }else{
+            return res.status(404);
+         }
+    });
 }
 
-// UPDATE `babelfish`.`note` SET `Learning_Day` = '2020-01-02' WHERE (`id` = '4');
+// UPDATE `babelfish`.`note` SET `Learning_Day` = '2020-01-02' WHERE (`id` = '4' AND `member_email` = 'test122234@naver.com');
 module.exports.updated_date = (req, res, next) => {
-    res.send('note-updated-date');
+    // TODO
+    // 1. data_verifications -> params.userid, params.noteid
+    // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+    // 3. DB query
+    // 4. respoens
+    // 5. error catch
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid})]);
+    data_verification()
+    .then(()=>{
+        // 2. 토큰 검증 시작
+        return jwt.verify(req.headers.token);
+    })
+    .then((decoded_data)=>{
+        // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+        if(decoded_data.userid != req.params.userid){
+            throw "no permission";
+        }
+    })
+    .then(()=>{
+        // 3. DB query
+        const sql = `UPDATE \`babelfish\`.\`note\` SET \`Learning_Day\` = '${settings.today()}' WHERE (\`id\` = '${req.params.noteid}' AND \`member_email\` = '${req.params.userid}')`;
+        return db.insert_query(sql);
+    })
+    .then(()=>{
+        // 4. respoens
+        return res.status(200).json(create.success("notes","note updated successful",32));
+    })
+    .catch((error)=>{
+        // 5. error catch
+        console.log("error :: DELETE/api/users/{useremail}/notes/{noteid} 유저 단어장 삭제");
+        console.log(error);
+        console.log("-------------------------------------------------");
+        if(error === "Value verification failed"){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,29));
+         }else if(error === "Token authentication failed"){
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+         }else if(error === "no permission"){
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,30));
+         }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,31));
+         }else{
+            return res.status(404);
+         }
+    });
 }
