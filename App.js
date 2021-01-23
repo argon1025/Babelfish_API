@@ -22,7 +22,7 @@ const tokenRouter = require('./routes/token');
 app.use('/token', tokenRouter);
 
 app.use((req, res, next) =>{
-  jwt.verify(req.body['token'])
+  jwt.verify(req.headers.token)
   .then(()=>{
     return next();
   })

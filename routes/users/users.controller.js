@@ -16,7 +16,7 @@ module.exports.change_information = (req, res, next) => {
     data_verification()
     .then(()=>{
         // 2. 토큰 검증
-        return jwt.verify(req.body.token);
+        return jwt.verify(req.headers.token);
     })
     .then((decoded_data)=>{
         // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
@@ -61,7 +61,7 @@ module.exports.delete = (req, res, next) => {
     data_verifications.check_id({userid:req.params.userid})
     .then(()=>{
         // 2. 토큰 검증 시작
-        return jwt.verify(req.body.token);
+        return jwt.verify(req.headers.token);
     })
     .then((decoded_data)=>{
         // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지

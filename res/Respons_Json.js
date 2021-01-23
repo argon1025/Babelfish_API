@@ -22,4 +22,13 @@ function success(location,msg,msg_code){
     "msg_code": `${msg_code}`
     };
 }
-module.exports = {error,login_success,success} 
+function success_getdata(location,msg,msg_code,data){
+  return {
+    "error": "false",
+    "location": `${location}`,
+    "msg": `${msg}`,
+    "msg_code": `${msg_code}`,
+    "data": data
+    };
+}
+module.exports = {error,login_success,success,success_getdata} 
