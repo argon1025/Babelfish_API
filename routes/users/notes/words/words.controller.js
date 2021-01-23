@@ -1,10 +1,74 @@
-// SELECT * FROM babelfish.word WHERE (`note_id` = '2');
+const data_verifications = require('../../../../res/DataVerification'); //값 검증 모듈
+const create = require('../../../../res/Respons_Json'); // res_json생성 모듈 
+const db = require('../../../../res/sync_mysql'); // sql 모듈
+const jwt = require('../../../../res/JWT'); //토큰 인증모듈
+const settings = require('../../../../res/settings');// 셋팅
+
+/*
+전체 리스트 조회
+babelfish.word.note_id
+babelfish.note.member_email
+본인데이터만 조회할 수 있도록 조인연산 진행
+\
+SELECT babelfish.word.id,babelfish.word.note_id,babelfish.word.Word_Title,babelfish.word.Mean1,babelfish.word.Mean2,babelfish.word.Wrong_Count
+FROM babelfish.word, babelfish.note
+WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='test12234@naver.com' AND babelfish.word.note_id = '6');
+*/
 module.exports.list = (req, res, next) => {
-    res.send('word-list');
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid})]);
+    data_verification()
+    .then(()=>{
+        // 2. 토큰 검증 시작
+        return jwt.verify(req.headers.token);
+    })
+    .then((decoded_data)=>{
+        // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+        if(decoded_data.userid != req.params.userid){
+            throw "no permission";
+        }
+    })
+    .then(()=>{
+        // 3. DB query
+        const sql = `
+        SELECT babelfish.word.id,babelfish.word.note_id,babelfish.word.Word_Title,babelfish.word.Mean1,babelfish.word.Mean2,babelfish.word.Wrong_Count
+        FROM babelfish.word, babelfish.note
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}')`;
+        return db.get_query(sql);
+    })
+    .then((data)=>{
+        // 4. respoens
+        return res.status(200).json(create.success_getdata("words","Words Information Load Successfully",36,data));
+    })
+    .catch((error)=>{
+        // 5. error catch
+        console.log("error :: GET/api/users/{useremail}/notes/{noteid}/words 단어장 단어 리스트");
+        console.log(error);
+        console.log("-------------------------------------------------");
+        if(error === "Value verification failed"){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,33));
+         }else if(error === "Token authentication failed"){
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+         }else if(error === "no permission"){
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,34));
+         }else if(error === "DB No results"){
+            return res.status(404).json(create.error(`notes`,`DB No results`,35));
+         }else{
+            return res.status(404);
+         }
+    });
 }
+
 // INSERT INTO `babelfish`.`word` (`note_id`, `Word_Title`, `Mean1`, `Mean2`) VALUES ('3', 'a', '에이', '에이1');
 module.exports.create = (req, res, next) => {
     res.send('word-create');
+    // TODO
+    // 1. data_verifications -> params.userid, notename
+    // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
+    // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는것이 있는지
+    // 3-2. DB query 삽입 진행
+    // 4. respoens
+    // 5. error catch
+
 }
 // UPDATE `babelfish`.`word` SET `Word_Title` = 'c', `Mean1` = '에이1', `Mean2` = '에이2' WHERE (`id` = '1');
 module.exports.change_information = (req, res, next) => {

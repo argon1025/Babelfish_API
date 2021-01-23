@@ -198,7 +198,7 @@ module.exports.delete = (req, res, next) => {
     });
 }
 
-// UPDATE `babelfish`.`note` SET `Learning_Day` = '2020-01-02' WHERE (`id` = '4' AND `member_email` = 'test122234@naver.com');
+// UPDATE `babelfish`.`note` SET `Learning_Day` = '2020-01-02', `Learning_Count`=`Learning_Count`+1 WHERE (`id` = '6' AND `member_email` = 'test12234@naver.com');
 module.exports.updated_date = (req, res, next) => {
     // TODO
     // 1. data_verifications -> params.userid, params.noteid
@@ -220,7 +220,7 @@ module.exports.updated_date = (req, res, next) => {
     })
     .then(()=>{
         // 3. DB query
-        const sql = `UPDATE \`babelfish\`.\`note\` SET \`Learning_Day\` = '${settings.today()}' WHERE (\`id\` = '${req.params.noteid}' AND \`member_email\` = '${req.params.userid}')`;
+        const sql = `UPDATE \`babelfish\`.\`note\` SET \`Learning_Day\` = '${settings.today()}', \`Learning_Count\`=\`Learning_Count\`+1 WHERE (\`id\` = '${req.params.noteid}' AND \`member_email\` = '${req.params.userid}')`;
         return db.insert_query(sql);
     })
     .then(()=>{
@@ -229,7 +229,7 @@ module.exports.updated_date = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
-        console.log("error :: DELETE/api/users/{useremail}/notes/{noteid} 유저 단어장 삭제");
+        console.log("error :: PUT/api/users/{useremail}/notes/{noteid}/updated-date 단어장 학습상태 갱신");
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
