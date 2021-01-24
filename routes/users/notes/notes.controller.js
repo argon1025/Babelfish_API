@@ -30,7 +30,7 @@ module.exports.list = (req, res, next) => {
     })
     .then((data)=>{
         // 4. respoens
-        return res.status(200).json(create.success_getdata("notes","User Note Information Load Successfully",13,data));
+        return res.status(200).json(create.success_getdata("notes","User Note Information Load Successfully","n1-4",data));
     })
     .catch((error)=>{
         // 5. error catch
@@ -38,13 +38,13 @@ module.exports.list = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,12));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n1-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,15));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"n1-2"));
          }else if(error === "DB No results"){
-            return res.status(404).json(create.error(`notes`,`DB No results`,16));
+            return res.status(404).json(create.error(`notes`,`DB No results`,"n1-3"));
          }else{
             return res.status(404);
          }
@@ -80,7 +80,7 @@ module.exports.create = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("notes","Create user note successful",20));
+        return res.status(200).json(create.success("notes","Create user note successful","n2-4"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -88,13 +88,13 @@ module.exports.create = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,17));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n2-1"));
          }else if(error === "Token authentication failed"){
-            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
+            return res.status(401).json(create.error(`notes`,`Token invalid or expired`,"4"));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,18));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"n2-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,19));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n2-3"));
          }else{
             return res.status(404);
          }
@@ -128,7 +128,7 @@ module.exports.change_information = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("notes","Change note Information successful",24));
+        return res.status(200).json(create.success("notes","Change note Information successful","n3-4"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -136,13 +136,13 @@ module.exports.change_information = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,21));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n3-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,22));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"n3-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,23));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n3-3"));
          }else{
             return res.status(404);
          }
@@ -177,7 +177,7 @@ module.exports.delete = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("notes","Delete note successful",28));
+        return res.status(200).json(create.success("notes","Delete note successful","n4-4"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -185,13 +185,13 @@ module.exports.delete = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,25));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n4-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,26));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"n4-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,27));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n4-3"));
          }else{
             return res.status(404);
          }
@@ -225,7 +225,7 @@ module.exports.updated_date = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("notes","note updated successful",32));
+        return res.status(200).json(create.success("notes","note updated successful","n5-4"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -233,13 +233,13 @@ module.exports.updated_date = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,29));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n5-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,30));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"n5-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,31));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"n5-3"));
          }else{
             return res.status(404);
          }

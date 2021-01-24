@@ -32,18 +32,18 @@ module.exports.change_information = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("user","user Information change successful","10"));
+        return res.status(200).json(create.success("user","user Information change successful","u3"));
     })
     .catch((error)=>{
         // 5. error catch
         console.log("error!");
         console.log(error);
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`user`,`Invalid ID or password or name`,8));
+            return res.status(400).json(create.error(`user`,`Invalid ID or password or name`,"u1"));
          }else if(error === "Token authentication failed"){
-            return res.status(401).json(create.error(`user`,`Token invalid or expired`,4));
+            return res.status(401).json(create.error(`user`,`Token invalid or expired`,"4"));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`user`,`Unable to modify other user information`,9));
+            return res.status(401).json(create.error(`user`,`Unable to modify other user information`,"u2"));
          }else{
             return res.status(404);
          }
@@ -77,7 +77,7 @@ module.exports.delete = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("user","user Information delete successful",13));
+        return res.status(200).json(create.success("user","user Information delete successful","u7"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -85,13 +85,13 @@ module.exports.delete = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`user`,`Invalid ID`,11));
+            return res.status(400).json(create.error(`user`,`Invalid ID`,"u4"));
          }else if(error === "Token authentication failed"){
-            return res.status(401).json(create.error(`user`,`Token invalid or expired`,4));
+            return res.status(401).json(create.error(`user`,`Token invalid or expired`,"4"));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`user`,`Unable to modify other user information`,9));
+            return res.status(401).json(create.error(`user`,`Unable to modify other user information`,"u5"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`user`,`Invalid ID`,12));
+            return res.status(400).json(create.error(`user`,`Invalid ID`,"u6"));
          }else{
             return res.status(404);
          }

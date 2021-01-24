@@ -26,14 +26,14 @@ router.post('/', (req, res, next) =>{
 })
 .then((token)=>{
     // 토큰 전송
-    return res.status(200).json(create.login_success(token,"Login Successful","3"));
+    return res.status(200).json(create.login_success(token,"Login Successful","t3"));
 })
 //오류처리
  .catch((error) => {
      if(error === "Value verification failed"){
-        return res.status(400).json(create.error(`token`,`Invalid ID or password`,1));
+        return res.status(400).json(create.error(`token`,`Invalid ID or password`,"t1"));
      }else if(error === "DB No results"){
-        return res.status(401).json(create.error(`token`,`Invalid ID or password`,2));
+        return res.status(401).json(create.error(`token`,`Invalid ID or password`,"t2"));
      }else{
         return res.status(404);
      }
@@ -56,13 +56,13 @@ router.post('/join', (req, res, next) =>{
         return db.insert_query(sql);
     })
     .then(()=>{
-        return res.status(200).json(create.success("user","join Successful","7"));
+        return res.status(200).json(create.success("user","join Successful","t7"));
     })
     .catch((error)=>{
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`user`,`Invalid ID or password or name`,5));
+            return res.status(400).json(create.error(`user`,`Invalid ID or password or name`,"t5"));
          }else if(error.code == 'ER_DUP_ENTRY'){
-            return res.status(401).json(create.error(`user`,`This ID is already registered`,6));
+            return res.status(401).json(create.error(`user`,`This ID is already registered`,"t6"));
          }else{
             return res.status(404);
          }

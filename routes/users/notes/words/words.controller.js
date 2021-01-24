@@ -37,7 +37,7 @@ module.exports.list = (req, res, next) => {
     })
     .then((data)=>{
         // 4. respoens
-        return res.status(200).json(create.success_getdata("words","Words Information Load Successfully",36,data));
+        return res.status(200).json(create.success_getdata("words","Words Information Load Successfully","w1-4",data));
     })
     .catch((error)=>{
         // 5. error catch
@@ -45,13 +45,13 @@ module.exports.list = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`Words`,`Invalid ID`,33));
+            return res.status(400).json(create.error(`Words`,`Invalid ID`,"w1-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`Words`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`Words`,`Unable to modify other user information`,34));
+            return res.status(401).json(create.error(`Words`,`Unable to modify other user information`,"w1-2"));
          }else if(error === "DB No results"){
-            return res.status(404).json(create.error(`Words`,`DB No results`,35));
+            return res.status(404).json(create.error(`Words`,`DB No results`,"w1-3"));
          }else{
             return res.status(404);
          }
@@ -96,7 +96,7 @@ module.exports.create = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("Words","Add to Word successful",40));
+        return res.status(200).json(create.success("Words","Add to Word successful","w2-5"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -104,15 +104,15 @@ module.exports.create = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,37));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w2-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,38));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"w2-2"));
          }else if(error.affectedRows === 0){ //쿼리 질의 실패시
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,39));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w2-3"));
          }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,39));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w2-4"));
          }else{
             return res.status(404);
          }
@@ -156,7 +156,7 @@ module.exports.change_information = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("Words","Change to Word successful",44));
+        return res.status(200).json(create.success("Words","Change to Word successful","w3-5"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -164,15 +164,15 @@ module.exports.change_information = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,41));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w3-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,42));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"w3-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,43));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w3-3"));
          }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,43));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w3-4"));
          }else{
             return res.status(404);
          }
