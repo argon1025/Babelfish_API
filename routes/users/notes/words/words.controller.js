@@ -60,7 +60,6 @@ module.exports.list = (req, res, next) => {
 
 // INSERT INTO `babelfish`.`word` (`note_id`, `Word_Title`, `Mean1`, `Mean2`) VALUES ('3', 'a', '에이', '에이1');
 module.exports.create = (req, res, next) => {
-    res.send('word-create');
     // TODO
     // 1. data_verifications -> params.userid, notename, req.body.title, req.body.mean1, req.body.mean2
     // 2. params.userid = token.userid 토큰과 요청한 아이디가 같은지
@@ -69,7 +68,7 @@ module.exports.create = (req, res, next) => {
     // 4. respoens
     // 5. error catch
 
-    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_words({number:req.body.title}),data_verifications.check_words({words:req.body.mean1}),data_verifications.check_words({words:req.body.mean2})]);
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_words({words:req.body.title}),data_verifications.check_words({words:req.body.mean1}),data_verifications.check_words({words:req.body.mean2})]);
     data_verification()
     .then(()=>{
         // 2. 토큰 검증 시작
@@ -84,11 +83,11 @@ module.exports.create = (req, res, next) => {
     .then(()=>{
         // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는지
         const sql = `
-        SELECT babelfish.word.id
-        FROM babelfish.word, babelfish.note
-        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}')
+        SELECT babelfish.note.id
+        FROM babelfish.note
+        WHERE(babelfish.note.member_email='${req.params.userid}' AND babelfish.note.id = '${req.params.noteid}')
         `;
-        return db.insert_query(sql);
+        return db.get_query(sql);
     })
     .then(()=>{
         // 3-2. DB query 삽입 진행
@@ -110,7 +109,9 @@ module.exports.create = (req, res, next) => {
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
             return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,38));
-         }else if(error.affectedRows === 0){
+         }else if(error.affectedRows === 0){ //쿼리 질의 실패시
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,39));
+         }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
             return res.status(400).json(create.error(`notes`,`Invalid ID`,39));
          }else{
             return res.status(404);
@@ -127,7 +128,7 @@ module.exports.change_information = (req, res, next) => {
     // 4. respoens
     // 5. error catch
 
-    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_words({number:req.body.title}),data_verifications.check_words({words:req.body.mean1}),data_verifications.check_words({words:req.body.mean2})]);
+    const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_number({number:req.params.wordid}),data_verifications.check_words({words:req.body.title}),data_verifications.check_words({words:req.body.mean1}),data_verifications.check_words({words:req.body.mean2})]);
     data_verification()
     .then(()=>{
         // 2. 토큰 검증 시작
@@ -140,13 +141,13 @@ module.exports.change_information = (req, res, next) => {
         }
     })
     .then(()=>{
-        // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는것이 있는지
+        // 3-1. DB query 유저 아이디, 노트아이디, 단어번호가 일치하는지
         const sql = `
         SELECT babelfish.word.id
         FROM babelfish.word, babelfish.note
-        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}');
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.note.id = '${req.params.noteid}' AND babelfish.word.id='${req.params.wordid}')
         `;
-        return db.insert_query(sql);
+        return db.get_query(sql);
     })
     .then(()=>{
         // 3-2. DB query 삽입 진행
@@ -155,7 +156,7 @@ module.exports.change_information = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("Words","Add to Word successful",44));
+        return res.status(200).json(create.success("Words","Change to Word successful",44));
     })
     .catch((error)=>{
         // 5. error catch
@@ -169,6 +170,8 @@ module.exports.change_information = (req, res, next) => {
          }else if(error === "no permission"){
             return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,42));
          }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,43));
+         }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
             return res.status(400).json(create.error(`notes`,`Invalid ID`,43));
          }else{
             return res.status(404);
@@ -198,13 +201,13 @@ module.exports.delete = (req, res, next) => {
         }
     })
     .then(()=>{
-        // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는것이 있는지
+        // 3-1. DB query 유저 아이디, 노트아이디, 단어번호가 일치하는지
         const sql = `
         SELECT babelfish.word.id
         FROM babelfish.word, babelfish.note
-        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}');
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.note.id = '${req.params.noteid}' AND babelfish.word.id='${req.params.wordid}')
         `;
-        return db.insert_query(sql);
+        return db.get_query(sql);
     })
     .then(()=>{
         // 3-2. DB query 삽입 진행
@@ -227,6 +230,8 @@ module.exports.delete = (req, res, next) => {
          }else if(error === "no permission"){
             return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,46));
          }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,47));
+         }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
             return res.status(400).json(create.error(`notes`,`Invalid ID`,47));
          }else{
             return res.status(404);
@@ -255,17 +260,19 @@ module.exports.wrong_count = (req, res, next) => {
         }
     })
     .then(()=>{
-        // 3-1. DB query 유저 아이디와 노트 아이디가 일치하는것이 있는지
+        // 3-1. DB query 유저 아이디, 노트아이디, 단어번호가 일치하는지
         const sql = `
         SELECT babelfish.word.id
         FROM babelfish.word, babelfish.note
-        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.word.note_id = '${req.params.noteid}');
+        WHERE(babelfish.word.note_id=babelfish.note.id AND babelfish.note.member_email='${req.params.userid}' AND babelfish.note.id = '${req.params.noteid}' AND babelfish.word.id='${req.params.wordid}')
         `;
-        return db.insert_query(sql);
+        console.log(sql);
+        return db.get_query(sql);
     })
     .then(()=>{
         // 3-2. DB query 삽입 진행
         const sql = `UPDATE \`babelfish\`.\`word\` SET \`Wrong_Count\` = \`Wrong_Count\`+1 WHERE (\`id\` = '${req.params.wordid}' AND \`note_id\` = '${req.params.noteid}')`;
+        console.log(sql);
         return db.insert_query(sql);
     })
     .then(()=>{
@@ -284,6 +291,8 @@ module.exports.wrong_count = (req, res, next) => {
          }else if(error === "no permission"){
             return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,50));
          }else if(error.affectedRows === 0){
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,51));
+         }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
             return res.status(400).json(create.error(`notes`,`Invalid ID`,51));
          }else{
             return res.status(404);
