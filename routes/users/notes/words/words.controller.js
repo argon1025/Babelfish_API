@@ -216,7 +216,7 @@ module.exports.delete = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("Words","Delete to Word successful",48));
+        return res.status(200).json(create.success("Words","Delete to Word successful","w4-5"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -224,15 +224,15 @@ module.exports.delete = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,45));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w4-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,46));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"w4-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,47));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w4-3"));
          }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,47));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w4-4"));
          }else{
             return res.status(404);
          }
@@ -277,7 +277,7 @@ module.exports.wrong_count = (req, res, next) => {
     })
     .then(()=>{
         // 4. respoens
-        return res.status(200).json(create.success("Words","Add Word wrong_count",52));
+        return res.status(200).json(create.success("Words","Add Word wrong_count","w5-5"));
     })
     .catch((error)=>{
         // 5. error catch
@@ -285,15 +285,15 @@ module.exports.wrong_count = (req, res, next) => {
         console.log(error);
         console.log("-------------------------------------------------");
         if(error === "Value verification failed"){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,49));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w5-1"));
          }else if(error === "Token authentication failed"){
             return res.status(401).json(create.error(`notes`,`Token invalid or expired`,4));
          }else if(error === "no permission"){
-            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,50));
+            return res.status(401).json(create.error(`notes`,`Unable to modify other user information`,"w5-2"));
          }else if(error.affectedRows === 0){
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,51));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w5-3"));
          }else if(error === "DB No results"){ // 회원이 노트를 소유중이 아닐때
-            return res.status(400).json(create.error(`notes`,`Invalid ID`,51));
+            return res.status(400).json(create.error(`notes`,`Invalid ID`,"w5-4"));
          }else{
             return res.status(404);
          }
