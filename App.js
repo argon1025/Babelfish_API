@@ -27,9 +27,13 @@ app.use('/token', tokenRouter);
 app.use((req, res, next) =>{
   jwt.verify(req.headers.token)
   .then(()=>{
+    console.log("토큰 인증 성공")
+    console.log(req.headers.token);
     return next();
   })
   .catch(() => {
+    console.log("토큰 인증 만료")
+    console.log(req.headers.token);
     return res.status(401).json(create.error(`token`,`Token invalid or expired`,4));
   })
 });

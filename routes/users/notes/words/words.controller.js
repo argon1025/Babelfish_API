@@ -247,6 +247,7 @@ module.exports.wrong_count = (req, res, next) => {
     // 3-2. DB query 삽입 진행
     // 4. respoens
     // 5. error catch
+    console.log("!");
     const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_number({number:req.params.noteid}),data_verifications.check_number({number:req.params.wordid})]);
     data_verification()
     .then(()=>{

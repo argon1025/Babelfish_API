@@ -13,6 +13,7 @@ router.post('/', (req, res, next) =>{
     // 2. DB query
     // 3. respoens
     // 4. error catch
+console.log("요청받음");
  const data_verification = () => Promise.all([data_verifications.check_id({userid:req.body.userid}),data_verifications.check_password({password:req.body.password})])
  data_verification()
  .then(()=>{
