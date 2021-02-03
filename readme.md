@@ -379,11 +379,11 @@ Body 데이터는 포함하지 않습니다
 |w1-2|다른사용자의 단어리스트를 열람할 수 없습니다|GET/api/users/{useremail}/notes/{noteid}/words|
 |w1-3|정상적으로 작업을 수행했지만 등록된 단어가 업습니다|GET/api/users/{useremail}/notes/{noteid}/words|
 |w1-4|정상적으로 작업을 수행 했습니다|GET/api/users/{useremail}/notes/{noteid}/words|
-|w2-1|데이터 검증에 실패했습니다|POST/api/users/{useremail}/notes|
-|w2-2|파라메터와 토큰의 정보가 일치하지 않습니다|POST/api/users/{useremail}/notes|
-|w2-3|변경할 사항이 없거나 데이터베이스 에러로 추가에 실패했습니다|POST/api/users/{useremail}/notes|
-|w2-4|다른 사용자의 단어장또는 존재하지 않는 단어장입니다|POST/api/users/{useremail}/notes|
-|w2-5|단어를 등록 했습니다|POST/api/users/{useremail}/notes|
+|w2-1|데이터 검증에 실패했습니다|POST/api/users/{useremail}/notes/{noteid}/words|
+|w2-2|파라메터와 토큰의 정보가 일치하지 않습니다|POST/api/users/{useremail}/notes/{noteid}/words|
+|w2-3|변경할 사항이 없거나 데이터베이스 에러로 추가에 실패했습니다|POST/api/users/{useremail}/notes/{noteid}/words|
+|w2-4|다른 사용자의 단어장또는 존재하지 않는 단어장입니다|POST/api/users/{useremail}/notes/{noteid}/words|
+|w2-5|단어를 등록 했습니다|POST/api/users/{useremail}/notes/{noteid}/words|
 |w3-1|데이터 검증에 실패했습니다|PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}|
 |w3-2|파라메터와 토큰의 정보가 일치하지 않습니다|PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}|
 |w3-3|변경할 사항이 없거나 데이터베이스 에러로 추가에 실패했습니다|PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}|
