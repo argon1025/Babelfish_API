@@ -4,9 +4,9 @@ const Joi = require('joi') //값 유효성 검증
 async function check_id(value){
     const schema = Joi.object({
         userid: Joi.string() //userid
+        .pattern(new RegExp(`^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$`)) // 알파벳, 숫자, @, .만 허용합니다
         .min(5) //문자열 최소 길이 정의
         .max(49) //문자열 최대 길이 정의
-        .email() // 이메일 형식을가진다
         .required(), // 값이 입력되어야한다
     });
     const Result = await schema.validate(value)
