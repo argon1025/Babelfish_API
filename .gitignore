@@ -17,3 +17,4 @@ jspm_packages/
 # app settings
 res/settings.js
 res/valcheck.js
+res/test.js
