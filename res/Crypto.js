@@ -89,6 +89,32 @@ class Crypto {
             throw error; // 에러를 반환합니다
         }
     }
+
+  /*
+    comparison - 유저가 입력한 평문 텍스트를전달받은 salt인자로 평문을 Hash화 해서 기존 암호화된 Hash를 비교한뒤 boolen을 리턴합니다
+    ---------------------------------------------------------------------------------------------------------------
+    text:userPassword(평문 텍스트),text:dbPassword(hash텍스트),text:salt(평문에 적용할 salt값), int:keyLength = 64(해시 길이), int:iterationsCount = 100000(암호화 연산 반복횟수), String:digSet = 'sha512'(암호화 방식)
+    RETURN -> boolen
+    ---------------------------------------------------------------------------------------------------------------
+    */
+    async comparison(userPassword, dbPassword, salt, keyLength = 64, iterationsCount = 100000, digSet = 'sha512'){
+        if (!userPassword && !dbPassword && !salt) { //인자값이 입력 되었는지 체크
+            throw Error(`userPassword dbPassword salt is required.`);
+        }
+
+        try{
+            //console.log(`${userPassword} / ${dbPassword} / ${salt}`)
+            const result = await this.hashencryption(userPassword,keyLength,iterationsCount,digSet,salt); //유저가 입력한 평문을 주어진 salt인자로 hash화 합니다
+            //console.log(`${userPassword} / ${dbPassword} / ${result.key}`)
+            if(result.key === dbPassword){ //hash암호화된 유저 평문과 기존 데이터를 비교해 값이 일치하는지 확인합니다
+                return true;
+            }else{
+                return false;
+            }
+        }catch(error){
+            throw error;
+        }
+    }
 }
 
 module.exports = new Crypto();
