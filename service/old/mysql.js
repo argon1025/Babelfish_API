@@ -29,7 +29,7 @@ module.exports.db.test_conn=() => {
 */
 
 const mysql = require('mysql');
-const settings = require('./settings');
+const settings = require('../settings');
 
 class database {
     constructor(){
