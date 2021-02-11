@@ -59,7 +59,7 @@ module.exports.create = (req, res, next) => {
     // 3. DB query
     // 4. respoens
     // 5. error catch
-
+    console.log("!");
     const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_note_name({notename:req.body.notename})]);
     // 1. data_verifications -> params.userid, notename
     data_verification()

@@ -2,33 +2,44 @@
 var jwt = require('jsonwebtoken'); // module import
 var settings = require('./settings');
 
-async function sign(userid) {
-  var token = jwt.sign({
-    sub : `babelfish_token`,
-    iss : `argon1025@gmail.com`,
-    aud : `user`,
-    userid : `${userid}`
-  },
-  settings.key, // 비밀키
-  {
-    expiresIn: '30m' // 유효시간
-  })
 
-  return token;
-}
-
-
-async function verify(token){
-  var decoded_data = jwt.verify(token, settings.key, (err, decoded_data)=>{
-    if(err){
-      throw 'Token authentication failed';
-    }else{
-      return decoded_data;
+class Jwt {
+  async getTokenInformation(userid) {
+    return {
+      sub: `babelfish_token`,
+      iss: `argon1025@gmail.com`,
+      aud: `user`,
+      userid: `${userid}`
+    };
+  }
+  async getTokenOption() {
+    return {
+      expiresIn: '30m' // 유효시간
     }
-});
-return decoded_data;
+  }
+  async sign(userid) {
+    const tokenInfomation = await this.getTokenInformation(userid);
+    const key = settings.key;
+    const tokenOption = await this.getTokenOption();
+
+    const token = await jwt.sign(tokenInfomation, key, tokenOption);
+
+    return token;
+  }
+  async verify(token) {
+    return new Promise((resolve, reject) => {
+
+      jwt.verify(token, settings.key, (error, decoded_data) => {
+        if (error) {
+          reject('Token authentication failed');
+        } else {
+          resolve(decoded_data);
+        }
+      });
+
+    });
+  }
 }
 
-module.exports = {
-  sign,verify
-};
+
+module.exports = new Jwt();
