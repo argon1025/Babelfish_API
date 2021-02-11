@@ -1,8 +1,8 @@
-const data_verifications = require('../../../res/DataVerification'); //값 검증 모듈
-const create = require('../../../res/Respons_Json'); // res_json생성 모듈 
-const db = require('../../../res/sync_mysql'); // sql 모듈
-const jwt = require('../../../res/JWT'); //토큰 인증모듈
-const settings = require('../../../res/settings');// 셋팅
+const data_verifications = require('../../../service/DataVerification'); //값 검증 모듈
+const create = require('../../../service/Respons_Json'); // res_json생성 모듈 
+const db = require('../../../service/sync_mysql'); // sql 모듈
+const jwt = require('../../../service/JWT'); //토큰 인증모듈
+const settings = require('../../../service/settings');// 셋팅
 
 // SELECT * FROM babelfish.note WHERE (`member_email` = 'id');
 module.exports.list = (req, res, next) => {
@@ -59,7 +59,7 @@ module.exports.create = (req, res, next) => {
     // 3. DB query
     // 4. respoens
     // 5. error catch
-
+    console.log("!");
     const data_verification = () => Promise.all([data_verifications.check_id({userid:req.params.userid}),data_verifications.check_note_name({notename:req.body.notename})]);
     // 1. data_verifications -> params.userid, notename
     data_verification()

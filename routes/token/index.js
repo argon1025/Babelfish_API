@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const data_verifications = require('../../res/DataVerification'); //값 검증 모듈
-const create = require('../../res/Respons_Json'); // res_json생성 모듈 
-const db = require('../../res/sync_mysql'); // sql 모듈
-const token = require('../../res/JWT'); //토큰 인증모듈
-const Crypto = require('../../res/Crypto'); //Hash 인증모듈
+const data_verifications = require('../../service/DataVerification'); //값 검증 모듈
+const create = require('../../service/Respons_Json'); // res_json생성 모듈 
+const db = require('../../service/sync_mysql'); // sql 모듈
+const token = require('../../service/JWT'); //토큰 인증모듈
+const Crypto = require('../../service/Crypto'); //Hash 인증모듈
 
 // SELECT * FROM babelfish.member WHERE (`email` = 'asd',`password`='');
 router.post('/', (req, res, next) => {

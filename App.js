@@ -4,9 +4,9 @@ const app = express();
 var bodyParser = require('body-parser'); //파싱 모듈
 var cors = require('cors'); // 크로스 도메인 허용
 
-const settings = require('./res/settings'); // 서버 세팅값 로드
-const jwt = require('./res/JWT');
-const create = require('./res/Respons_Json'); // res_json생성 모듈 
+const settings = require('./service/settings'); // 서버 세팅값 로드
+const jwt = require('./service/JWT');
+const create = require('./service/Respons_Json'); // res_json생성 모듈 
 /////////////////////////////////////
 
 

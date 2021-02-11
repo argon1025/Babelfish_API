@@ -1,7 +1,7 @@
-const data_verifications = require('../../res/DataVerification'); //값 검증 모듈
-const create = require('../../res/Respons_Json'); // res_json생성 모듈 
-const db = require('../../res/sync_mysql'); // sql 모듈
-const jwt = require('../../res/JWT'); //토큰 인증모듈
+const data_verifications = require('../../service/DataVerification'); //값 검증 모듈
+const create = require('../../service/Respons_Json'); // res_json생성 모듈 
+const db = require('../../service/sync_mysql'); // sql 모듈
+const jwt = require('../../service/JWT'); //토큰 인증모듈
 
 
 // UPDATE `babelfish`.`member` SET `name` = 'name', `password` = 'pass' WHERE (`email` = 'id');
