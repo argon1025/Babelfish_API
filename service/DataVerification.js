@@ -1,123 +1,123 @@
-const Joi = require('joi') //값 유효성 검증
+const Joi = require('joi') //값 유효성 검증모듈
 
 
-async function check_id(value){
-    const schema = Joi.object({
-        userid: Joi.string() //userid
-        .pattern(new RegExp(`^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$`)) // 알파벳, 숫자, @, .만 허용합니다
-        .min(5) //문자열 최소 길이 정의
-        .max(49) //문자열 최대 길이 정의
-        .required(), // 값이 입력되어야한다
-    });
-    const Result = await schema.validate(value)
-
-    if(!Result.error){
-        //값 검증에 문제가 없을경우
-        return Result;
-    }else{
-        //문제가 있을경우
-        /*
-        error: [Error [ValidationError]: "userid" must be a valid email] {
-        _original: { userid: 'Post77@' },
-        details: [ [Object] ]
+class Verification {
+    constructor() {
+        /** 
+         * 정규식 패턴
+         * 
         */
-       console.log(Result.error);
-        throw "Value verification failed";
+        this.ID_PATTERN = new RegExp(`^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$`); // 이메일 정규식 패턴
+        this.USERNAME_PATTERN = new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`); //유저이름 정규식 패턴
+        this.NOTENAME_PATTERN = new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`); //노트 이름 정규식 패턴
+        this.WORD_PATTERN = new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9|ぁ-ゔ|ァ-ヴー|々　〆〤｜一-龥]+$`); //단어 정규식 패턴
+
+        /*
+        Joi 스키마 구성
+            pattern(정규식),
+            min(문자열 최소길이),
+            max(문자열 최대길이), 
+            required(값이 유효한지)
+        */
+        this.ID_SCHEMA = Joi.object({
+            userid: Joi.string()
+                .pattern(this.ID_PATTERN)
+                .min(5)
+                .max(49)
+                .required()
+        });
+        this.PASSWORD_SCHEMA = Joi.object({
+            password: Joi.string()
+                .alphanum()
+                .min(5)
+                .max(31)
+                .required()
+        });
+        this.USERNAME_SCHEMA = Joi.object({
+            name: Joi.string()
+                .pattern(this.USERNAME_PATTERN)
+                .min(1)
+                .max(10)
+                .required()
+        });
+        this.NOTENAME_SCHEMA = Joi.object({
+            notename: Joi.string()
+                .pattern(this.NOTENAME_PATTERN)
+                .min(1)
+                .max(11)
+                .required()
+        });
+        this.NUMBER_SCHEMA = Joi.object({
+            number: Joi.number()
+                .required()
+        });
+        this.WORD_SCHEMA = Joi.object({
+            words: Joi.string()
+                .pattern(this.WORD_PATTERN)
+                .min(1)
+                .max(30)
+                .required()
+        });
+    }
+
+
+    async check_id(value) {
+        const Result = await this.ID_SCHEMA.validate(value);
+
+        if (!Result.error) {
+            return Result;
+        } else {
+            throw "Value verification failed";
+        }
+    }
+
+    async check_password(value) {
+        const Result = await this.PASSWORD_SCHEMA.validate(value);
+
+        if (!Result.error) {
+            return Result;
+        } else {
+            throw "Value verification failed";
+        }
+    }
+
+    async check_name(value) {
+        const Result = await this.USERNAME_SCHEMA.validate(value);
+
+        if (!Result.error) {
+            return Result;
+        } else {
+            throw "Value verification failed";
+        }
+    }
+
+    async check_note_name(value) {
+        const Result = await this.NOTENAME_SCHEMA.validate(value);
+
+        if (!Result.error) {
+            return Result;
+        } else {
+            throw "Value verification failed";
+        }
+    }
+    async check_number(value) {
+        const Result = await this.NUMBER_SCHEMA.validate(value);
+
+        if (!Result.error) {
+            return Result;
+        } else {
+            throw "Value verification failed";
+        }
+    }
+    async check_words(value) {
+        const Result = await this.WORD_SCHEMA.validate(value)
+
+        if (!Result.error) {
+            return Result;
+        } else {
+            console.log(Result.error);
+            throw "Value verification failed";
+        }
     }
 }
-
-async function check_password(value){
-    const schema = Joi.object({
-        password: Joi.string()
-        .alphanum() // 알파벳과 숫자로 구성되어야 한다
-        .min(5) //문자열 최소 길이 정의
-        .max(31) //문자열 최대 길이 정의
-        .required() // 값이 입력되어야한다
-    });
-    const Result = await schema.validate(value) //검증 시작
-
-    if(!Result.error){
-        //값 검증에 문제가 없을경우
-        return Result;
-    }else{
-        //문제가 있을경우
-        throw "Value verification failed";
-    }
-}
-
-async function check_name(value){
-    const schema = Joi.object({
-        name: Joi.string()
-        .pattern(new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`)) // 한글,알파벳,숫자,띄어쓰기만 허용합니다
-        .min(1) //문자열 최소 길이 정의
-        .max(10) //문자열 최대 길이 정의
-        .required() // 값이 입력되어야한다
-    });
-    const Result = await schema.validate(value) //검증 시작
-
-    if(!Result.error){
-        //값 검증에 문제가 없을경우
-        return Result;
-    }else{
-        //문제가 있을경우
-        throw "Value verification failed";
-    }
-}
-async function check_note_name(value){
-    const schema = Joi.object({
-        notename: Joi.string()
-        .pattern(new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`)) // 한글,알파벳,숫자,띄어쓰기만 허용합니다
-        .min(1) //문자열 최소 길이 정의
-        .max(11) //문자열 최대 길이 정의
-        .required() // 값이 입력되어야한다
-    });
-    const Result = await schema.validate(value) //검증 시작
-
-    if(!Result.error){
-        //값 검증에 문제가 없을경우
-        return Result;
-    }else{
-        //문제가 있을경우
-        console.log(Result.error);
-        throw "Value verification failed";
-    }
-}
-
-async function check_number(value){
-    const schema = Joi.object({
-        number: Joi.number() //숫자여야 한다
-        .required() // 값이 입력되어야한다
-    });
-    const Result = await schema.validate(value) //검증 시작
-
-    if(!Result.error){
-        //값 검증에 문제가 없을경우
-        return Result;
-    }else{
-        //문제가 있을경우
-        console.log(Result.error);
-        throw "Value verification failed";
-    }
-}
-async function check_words(value){
-    const schema = Joi.object({
-        words: Joi.string()
-        .pattern(new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9|ぁ-ゔ|ァ-ヴー|々　〆〤｜一-龥]+$`)) // 한글,알파벳,숫자,띄어쓰기만 허용합니다
-        .min(1) //문자열 최소 길이 정의
-        .max(30) //문자열 최대 길이 정의
-        .required() // 값이 입력되어야한다
-    });
-    const Result = await schema.validate(value) //검증 시작
-
-    if(!Result.error){
-        //값 검증에 문제가 없을경우
-        return Result;
-    }else{
-        //문제가 있을경우
-        console.log(Result.error);
-        throw "Value verification failed";
-    }
-}
-module.exports = {
-    check_id, check_password,check_name,check_note_name,check_number,check_words
-}
+module.exports = new Verification();
