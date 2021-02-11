@@ -1,11 +1,30 @@
 const Joi = require('joi') //값 유효성 검증모듈
 
-
+/**
+ * Text Verification Module
+ * 정규식 패턴과 Joi schema를 통해 텍스트를 검증하는 모듈입니다
+ * 
+ * 
+ * @ author leeseongrok(argon1025@gmail.com) - 2021.2.11
+ * @ version 1.0
+ * 
+ * 
+ * @ Class Structure
+ * -constructor
+ *      1.정규식 패턴을 정의합니다
+ *      2.Joi 모듈의 schema를 정의합니다
+ * 
+ * - async check_id ({userid:String})
+ * - async check_password ({password:String})
+ * - async check_name ({name:String})
+ * - async check_note_name ({notename:String})
+ * - async check_number ({number:String})
+ * - async check_words ({words:String})
+ */
 class Verification {
     constructor() {
         /** 
          * 정규식 패턴
-         * 
         */
         this.ID_PATTERN = new RegExp(`^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$`); // 이메일 정규식 패턴
         this.USERNAME_PATTERN = new RegExp(`^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|\\s|0-9]+$`); //유저이름 정규식 패턴
@@ -60,7 +79,7 @@ class Verification {
         });
     }
 
-
+    //userId 검사
     async check_id(value) {
         const Result = await this.ID_SCHEMA.validate(value);
 
@@ -71,6 +90,7 @@ class Verification {
         }
     }
 
+    //userPassword 검사
     async check_password(value) {
         const Result = await this.PASSWORD_SCHEMA.validate(value);
 
@@ -81,6 +101,7 @@ class Verification {
         }
     }
 
+    //userName 검사
     async check_name(value) {
         const Result = await this.USERNAME_SCHEMA.validate(value);
 
@@ -91,6 +112,7 @@ class Verification {
         }
     }
 
+    //userNoteName 검사
     async check_note_name(value) {
         const Result = await this.NOTENAME_SCHEMA.validate(value);
 
@@ -100,6 +122,8 @@ class Verification {
             throw "Value verification failed";
         }
     }
+
+    //number 검사
     async check_number(value) {
         const Result = await this.NUMBER_SCHEMA.validate(value);
 
@@ -109,6 +133,8 @@ class Verification {
             throw "Value verification failed";
         }
     }
+
+    //userNoteWord 검사
     async check_words(value) {
         const Result = await this.WORD_SCHEMA.validate(value)
 
