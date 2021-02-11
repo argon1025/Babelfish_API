@@ -44,9 +44,9 @@ class Jwt {
   }
 
   async sign(userid) {
-    const tokenInfomation = await this.getTokenInformation(userid);
+    const tokenInfomation = await this.getTokenInformation(userid); //1
     const key = settings.key;
-    const tokenOption = await this.getTokenOption();
+    const tokenOption = await this.getTokenOption(); // 2 1,2 전체 한꺼번에 실행되도록 수정 필요함
 
     const token = await jwt.sign(tokenInfomation, key, tokenOption);
 
