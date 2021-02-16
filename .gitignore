@@ -15,6 +15,6 @@ jspm_packages/
 .DS_Store
 
 # app settings
-res/settings.js
-res/valcheck.js
-res/test.js
+service/settings.js
+service/valcheck.js
+service/test.js
