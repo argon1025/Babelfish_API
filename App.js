@@ -6,7 +6,8 @@ var cors = require('cors'); // 크로스 도메인 허용
 
 const settings = require('./service/settings'); // 서버 세팅값 로드
 const jwt = require('./service/JWT');
-const create = require('./service/Respons_Json'); // res_json생성 모듈 
+const create = require('./service/Respons_Json'); // res_json생성 모듈
+const ErrorHandler = require('./service/ErrorHandler'); // 에러 처리 모듈
 /////////////////////////////////////
 
 
@@ -27,21 +28,28 @@ app.use('/token', tokenRouter);
 app.use((req, res, next) =>{
   jwt.verify(req.headers.token)
   .then(()=>{
-    console.log("토큰 인증 성공")
-    console.log(req.headers.token);
+    //console.log("토큰 인증 성공")
+    //console.log(req.headers.token);
     return next();
   })
   .catch(() => {
-    console.log("토큰 인증 만료")
-    console.log(req.headers.token);
+    //console.log("토큰 인증 만료")
+    //console.log(req.headers.token);
     return res.status(401).json(create.error(`token`,`Token invalid or expired`,4));
   })
 });
+
 ///////////////////////////////////// =====> 라우팅
 const indexRouter = require('./routes');
 app.use('/api', indexRouter);
 /////////////////////////////////////
 
+///////////////////////////////////// =====> 오류 처리
+app.use(async (err, req, res, next) =>{
+  ErrorHandler.handling(err, req, res, next);
+  next();
+});
+/////////////////////////////////////
 
 /////////////////////////////////////  =====> 앱 실행
 app.listen(settings.port, () => {

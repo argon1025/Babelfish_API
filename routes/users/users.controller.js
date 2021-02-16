@@ -36,8 +36,8 @@ module.exports.change_information = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
-        console.log("error!");
-        console.log(error);
+        next(error);
+        /*
         if(error === "Value verification failed"){
             return res.status(400).json(create.error(`user`,`Invalid ID or password or name`,"u1"));
          }else if(error === "Token authentication failed"){
@@ -47,6 +47,7 @@ module.exports.change_information = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     })
 }
 
@@ -81,6 +82,8 @@ module.exports.delete = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
+        next(error);
+        /*
         console.log("error :: DELETE /api/users/:{useremail} 유저 삭제");
         console.log(error);
         console.log("-------------------------------------------------");
@@ -95,5 +98,6 @@ module.exports.delete = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     })
 }

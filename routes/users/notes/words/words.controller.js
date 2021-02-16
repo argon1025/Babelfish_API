@@ -41,6 +41,8 @@ module.exports.list = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
+        next(error);
+            /*
         console.log("error :: GET/api/users/{useremail}/notes/{noteid}/words 단어장 단어 리스트");
         console.log(error);
         console.log("-------------------------------------------------");
@@ -55,6 +57,7 @@ module.exports.list = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     });
 }
 
@@ -100,6 +103,8 @@ module.exports.create = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
+        next(error);
+            /*
         console.log("error :: POST/api/users/{useremail}/notes/{noteid}/words 단어장에 단어 추가");
         console.log(error);
         console.log("-------------------------------------------------");
@@ -116,6 +121,7 @@ module.exports.create = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     });
 }
 // UPDATE `babelfish`.`word` SET `Word_Title` = 'c', `Mean1` = '에이1', `Mean2` = '에이2' WHERE (`id` = '1');
@@ -160,6 +166,8 @@ module.exports.change_information = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
+        next(error);
+            /*
         console.log("error :: PUT/api/users/{useremail}/notes/{noteid}/words/{wordid} 단어 수정");
         console.log(error);
         console.log("-------------------------------------------------");
@@ -176,6 +184,7 @@ module.exports.change_information = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     });
 }
 // DELETE FROM `babelfish`.`word` WHERE (`id` = '1' AND `note_id` = 'asd');
@@ -220,6 +229,8 @@ module.exports.delete = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
+        next(error);
+            /*
         console.log("error :: DELETE/api/users/{useremail}/notes/{noteid}/words/{wordid} 단어 삭제");
         console.log(error);
         console.log("-------------------------------------------------");
@@ -236,6 +247,7 @@ module.exports.delete = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     });
 }
 // UPDATE `babelfish`.`word` SET `Wrong_Count` = `Wrong_Count`+1 WHERE (`id` = '1' AND `note_id` = 'asd');
@@ -282,6 +294,8 @@ module.exports.wrong_count = (req, res, next) => {
     })
     .catch((error)=>{
         // 5. error catch
+        next(error);
+            /*
         console.log("error :: PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}/wrong-count 단어 틀린 횟수 설정");
         console.log(error);
         console.log("-------------------------------------------------");
@@ -298,5 +312,6 @@ module.exports.wrong_count = (req, res, next) => {
          }else{
             return res.status(404);
          }
+         */
     });
 }
