@@ -1,7 +1,9 @@
 # 1. BabelFish_REST API
 
-BabelFish 프로젝트의 REST API 설명서입니다
-
+BabelFish 프로젝트
+- Node.js
+- REST API
+- Mysql
 
 # 2. 엔드포인트 구성
 ```
