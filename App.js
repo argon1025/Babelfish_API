@@ -6,7 +6,8 @@ var cors = require('cors'); // 크로스 도메인 허용
 
 const settings = require('./service/settings'); // 서버 세팅값 로드
 const jwt = require('./service/JWT');
-const create = require('./service/Respons_Json'); // res_json생성 모듈 
+const create = require('./service/Respons_Json'); // res_json생성 모듈
+const ErrorHandler = require('./service/ErrorHandler'); // 에러 처리 모듈
 /////////////////////////////////////
 
 
@@ -42,6 +43,9 @@ const indexRouter = require('./routes');
 app.use('/api', indexRouter);
 /////////////////////////////////////
 
+///////////////////////////////////// =====> 오류 처리
+app.use(ErrorHandler.test);
+/////////////////////////////////////
 
 /////////////////////////////////////  =====> 앱 실행
 app.listen(settings.port, () => {
