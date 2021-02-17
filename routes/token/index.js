@@ -22,11 +22,11 @@ router.post('/', (req, res, next) => {
             const sql = `SELECT * FROM babelfish.member WHERE (\`email\` = '${req.body.userid}')`
             return db.get_query(sql);
         })
-        .then(async(result) => {
-            const passwordComparison = await Crypto.comparison(req.body.password,result[0]['password'],result[0]['salt'],32); // 유저가 입력한 패스워드와 DB에 저장된 패스워드를 Hash암호화후 검증 -> true false
-            if(passwordComparison){
+        .then(async (result) => {
+            const passwordComparison = await Crypto.comparison(req.body.password, result[0]['password'], result[0]['salt'], 32); // 유저가 입력한 패스워드와 DB에 저장된 패스워드를 Hash암호화후 검증 -> true false
+            if (passwordComparison) {
                 return token.sign(result[0]['email']); // 아이디와 비밀번호가 일치할경우 토큰 생성
-            }else{
+            } else {
                 throw 'DB No results'; // 일치하지않을경우 에러 생성
             }
         })
@@ -57,8 +57,11 @@ router.post('/join', (req, res, next) => {
     // 1. data_verifications -> id,name,password
     data_verification()
         .then(() => {
+            return Crypto.hashencryption(req.body.password,32);
+        })
+        .then((cryptoResult) => {
             // 2. DB query
-            const sql = `INSERT INTO \`babelfish\`.\`member\` (\`email\`,\`name\`,\`password\`) VALUES('${req.body.userid}','${req.body.name}','${req.body.password}');`
+            const sql = `INSERT INTO babelfish.member (\`email\`,\`name\`,\`password\`,\`salt\`) VALUES('${req.body.userid}','${req.body.name}','${cryptoResult.key}','${cryptoResult.salt}');`
             return db.insert_query(sql);
         })
         .then(() => {

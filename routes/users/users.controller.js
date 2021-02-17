@@ -2,7 +2,7 @@ const data_verifications = require('../../service/DataVerification'); //값 검�
 const create = require('../../service/Respons_Json'); // res_json생성 모듈 
 const db = require('../../service/sync_mysql'); // sql 모듈
 const jwt = require('../../service/JWT'); //토큰 인증모듈
-
+const Crypto = require('../../service/Crypto');// 해싱 모듈
 
 // UPDATE `babelfish`.`member` SET `name` = 'name', `password` = 'pass' WHERE (`email` = 'id');
 module.exports.change_information = (req, res, next) => {
@@ -26,8 +26,11 @@ module.exports.change_information = (req, res, next) => {
         }
     })
     .then(()=>{
-        // 3. DB query
-        const sql = `UPDATE \`babelfish\`.\`member\` SET \`name\` = '${req.body.name}', \`password\` = '${req.body.password}' WHERE (\`email\` = '${req.params.userid}')`;
+        return Crypto.hashencryption(req.body.password,32);
+    })
+    .then((cryptoResult)=>{
+        // 3. DB query 
+        const sql = `UPDATE babelfish.member SET \`name\` = '${req.body.name}', \`password\` = '${cryptoResult.key}',\`salt\` = '${cryptoResult.salt}' WHERE (\`email\` = '${req.params.userid}')`;
         return db.insert_query(sql);
     })
     .then(()=>{
