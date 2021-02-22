@@ -387,6 +387,7 @@ Body 데이터는 포함하지 않습니다
 |w2-3|변경할 사항이 없거나 데이터베이스 에러로 추가에 실패했습니다|POST/api/users/{useremail}/notes/{noteid}/words|
 |w2-4|다른 사용자의 단어장또는 존재하지 않는 단어장입니다|POST/api/users/{useremail}/notes/{noteid}/words|
 |w2-5|단어를 등록 했습니다|POST/api/users/{useremail}/notes/{noteid}/words|
+|w2-6|최대 생성가능한 단어 갯수를 초과했습니다|POST/api/users/{useremail}/notes/{noteid}/words|
 |w3-1|데이터 검증에 실패했습니다|PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}|
 |w3-2|파라메터와 토큰의 정보가 일치하지 않습니다|PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}|
 |w3-3|변경할 사항이 없거나 데이터베이스 에러로 추가에 실패했습니다|PUT/api/users/{useremail}/notes/{noteid}/words/{wordid}|
