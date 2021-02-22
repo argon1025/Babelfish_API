@@ -365,6 +365,7 @@ Body 데이터는 포함하지 않습니다
 |n2-2|다른 사용자의 단어장을 추가할 수 없습니다|POST/api/users/{useremail}/notes|
 |n2-3|데이터베이스 에러로 단어장 등록에 실패했습니다|POST/api/users/{useremail}/notes|
 |n2-4|단어장을 등록했습니다|POST/api/users/{useremail}/notes|
+|n2-5|최대 생성 가능한 단어장 수를 초과했습니다|POST/api/users/{useremail}/notes|
 |n3-1|데이터 검증에 실패했습니다|PUT/api/users/{useremail}/notes/{noteid}|
 |n3-2|다른 사용자의 단어장을 수정할 수 없습니다|PUT/api/users/{useremail}/notes/{noteid}|
 |n3-3|변경할 사항이 없거나 데이터베이스 에러로 수정에 실패했습니다|PUT/api/users/{useremail}/notes/{noteid}|
