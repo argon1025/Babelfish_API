@@ -77,9 +77,20 @@ module.exports.create = (req, res, next) => {
                 throw "no permission";
             }
         })
+        .then(()=>{
+            const sql = `SELECT COUNT(*) FROM babelfish.note WHERE (\`member_email\`='${req.params.userid}');`
+            return db.get_query(sql);
+        })
+        .then((userNoteCount)=>{
+            const result = userNoteCount[0]["COUNT(*)"];
+            console.log(result);
+            if(result >= 100){ // 유저 노트가 100개 이상일경우
+                throw "Over Max Notes";
+            }
+        })
         .then(() => {
             // 3. DB query
-            const sql = `INSERT INTO \`babelfish\`.\`note\` (\`member_email\`, \`name\`, \`Learning_Day\`) VALUES ('${req.params.userid}', '${req.body.notename}', '${settings.today()}')`;
+            const sql = `INSERT INTO babelfish.note (\`member_email\`, \`name\`, \`Learning_Day\`) VALUES ('${req.params.userid}', '${req.body.notename}', '${settings.today()}')`;
             return db.insert_query(sql);
         })
         .then(() => {
