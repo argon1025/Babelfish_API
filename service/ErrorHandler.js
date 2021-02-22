@@ -28,7 +28,7 @@ class ErrorHandler {
                     'Token authentication failed': { 'msgCode': '4', 'msg': 'Token invalid or expired', 'code': '401' },
                     'no permission': { 'msgCode': 'n2-2', 'msg': 'Unable to modify other user information', 'code': '401' },
                     'no affectedRows': { 'msgCode': 'n2-3', 'msg': 'DB No results', 'code': '400' },
-                    'Over Max Notes': { 'msgCode': 'n2-4', 'msg': 'Over Max Notes', 'code': '401' }
+                    'Over Max Notes': { 'msgCode': 'n2-5', 'msg': 'Over Max Notes', 'code': '401' }
                 }
             },
             '/:userid/notes/:noteid': {
