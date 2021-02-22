@@ -93,6 +93,17 @@ module.exports.create = (req, res, next) => {
         return db.get_query(sql);
     })
     .then(()=>{
+        const sql = `SELECT COUNT(*) FROM babelfish.word WHERE (\`note_id\`='${req.params.noteid}');`;
+        return db.get_query(sql);
+    })
+    .then((userWordCount)=>{
+        const result = userWordCount[0]["COUNT(*)"];
+        console.log(result);
+        if(result >= 300){ // 유저 단어가 300개 이상일경우
+            throw "Over Max Words";
+        }
+    })
+    .then(()=>{
         // 3-2. DB query 삽입 진행
         const sql = `INSERT INTO \`babelfish\`.\`word\` (\`note_id\`, \`Word_Title\`, \`Mean1\`, \`Mean2\`) VALUES ('${req.params.noteid}', '${req.body.title}', '${req.body.mean1}', '${req.body.mean2}')`;
         return db.insert_query(sql);

@@ -65,7 +65,8 @@ class ErrorHandler {
                     'Token authentication failed': { 'msgCode': '4', 'msg': 'Token invalid or expired', 'code': '401' },
                     'no permission': { 'msgCode': 'w2-2', 'msg': 'Unable to modify other user information', 'code': '401' },
                     'no affectedRows': { 'msgCode': 'w2-3', 'msg': 'DB No results', 'code': '400' },
-                    'DB No results': { 'msgCode': 'w2-4', 'msg': 'DB No results', 'code': '400' }
+                    'DB No results': { 'msgCode': 'w2-4', 'msg': 'DB No results', 'code': '400' },
+                    'Over Max Words': { 'msgCode': 'w2-6', 'msg': 'Over Max Words', 'code': '400' }
                 }
             },
             '/:userid/notes/:noteid/words/:wordid': {
