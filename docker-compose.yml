@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  Nginx:
+    image: nginx:latest
+    container_name: proxy
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+  express_1:
+    build:
+      context: ./app
+    container_name: express_1
+    environment:
+      - NodeJS_PORT=8001
+      - MYSQL_HOST=db
+      - MYSQL_USER=babelfish
+      - MYSQL_PASSWORD=Testpassword
+      - MYSQL_DATABASE=babelfish
+    expose:
+      - "8001"
+  express_2:
+    build:
+      context: ./app
+    container_name: express_2
+    environment:
+      - NodeJS_PORT=8002
+      - MYSQL_HOST=db
+      - MYSQL_USER=babelfish
+      - MYSQL_PASSWORD=Testpassword
+      - MYSQL_DATABASE=babelfish
+    expose:
+      - "8002"
+  express_3:
+    build:
+      context: ./app
+    container_name: express_3
+    environment:
+      - NodeJS_PORT=8003
+      - MYSQL_HOST=db
+      - MYSQL_USER=babelfish
+      - MYSQL_PASSWORD=Testpassword
+      - MYSQL_DATABASE=babelfish
+    expose:
+      - "8003"
+  db:
+    image: mysql:5.7
+    container_name: Database
+    environment:
+      - MYSQL_ROOT_PASSWORD=@Siloam971025
+      - MYSQL_DATABASE=babelfish
+      - MYSQL_USER=babelfish
+      - MYSQL_PASSWORD=Testpassword
+    volumes:
+      - "./docker/mysql/mysql-init-files/:/docker-entrypoint-initdb.d/"
+      - "./docker/mysql/mysql-data:/var/lib/mysql"
+    ports:
+      - "3306:3306"
