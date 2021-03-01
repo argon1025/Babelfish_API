@@ -2,4 +2,4 @@
 .DS_Store
 
 # Mysql-data
-./docker/mysql/mysql-data
+mysql-data
