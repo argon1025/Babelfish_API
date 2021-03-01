@@ -1,2 +1,5 @@
 # on mac settings
 .DS_Store
+
+# Mysql-data
+./docker/mysql/mysql-data
