@@ -9,7 +9,7 @@ Service link is [Here](http://babelfish.seongrok.net/)
 
 Service Endpoint Document is [Here](https://github.com/argon1025/Babelfish_API/tree/main/app)
 
-ProntEnd Project Repositorie is [Here](https://github.com/argon1025/babelfish)
+FrontEnd Project Repositorie is [Here](https://github.com/argon1025/babelfish)
 
 
 # Project Stack
