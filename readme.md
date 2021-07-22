@@ -1,4 +1,4 @@
-# Babelfish-server
+# Babelfish-server V1
 ![image](https://user-images.githubusercontent.com/55491354/106644434-72e1c880-65ce-11eb-8677-6aa35668591e.png)
 
 모든 사람들을 위한 단어장 플랫폼 Babelfish 입니다.
