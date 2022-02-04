@@ -1,11 +1,11 @@
 # Babelfish-server V1
 ![image](https://user-images.githubusercontent.com/55491354/106644434-72e1c880-65ce-11eb-8677-6aa35668591e.png)
 
+> Service link is [Here](http://babelfish.seongrok.net/) but service has been terminated ⚒️
+
 모든 사람들을 위한 단어장 플랫폼 Babelfish 입니다.
 
 Word book platform for everyone, Babelfish.
-
-Service link is [Here](http://babelfish.seongrok.net/)
 
 Service Endpoint Document is [Here](https://github.com/argon1025/Babelfish_API/tree/main/app)
 
